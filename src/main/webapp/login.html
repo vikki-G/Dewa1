@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html ng-app="DEWAApp_Login">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link type="text/css" href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <title>DEWA</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="fonts/Font-Awesome-5.13.0/font-awesome.css" />
+    <link type="text/css" rel="stylesheet" href="fonts/Roboto-Font/Roboto-RCondensed.css" />
+    <link rel="stylesheet" type="text/css" href="css/login-style.css">
+     <link rel="stylesheet" type="text/css" href="css/style.css">
+
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/loader.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery.growl.css" />
+<!-- 
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script> -->
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery.growl.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/inline-script.js"></script>
+
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+
+</head>
+
+<body class="en" ng-controller="DEWALoginController">
+    <section class="login-main-container ">
+        <div class="login-container">
+            <div class="login-inner-container">
+                <div class="login-left-container">
+                <img class="login-logo " src="images/DEWA-logo.png" alt="DEWA" title="DEWA" />
+                </div>
+                <div class="login-right-container">
+                    <div class="login-body">
+                        <i class="login-user-icon fa fa-user"></i>
+                        <h1 class="login-h1-head">Welcome!</h1>
+                        <p class="login-p-text">Sign in to continue</p>
+                        <form>
+                            <ul class="login-form">
+                                <li>
+                                    <div class="input-group">
+                                        <div class="label-field">
+                                            <label>User Name</label>
+                                        </div>
+                                        <div class="input-field input-icon">
+                                            <input class="input-text" type="text" id="username" name="username" ng-model="credentials.username" placeholder="User Name" spellcheck="false" />
+                                            <i class="fa fa-user input-field-icon"></i>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-group">
+                                        <div class="label-field">
+                                            <label>Password</label>
+                                        </div>
+                                        <div class="input-field input-icon">
+                                            <input class="input-password" type="password" id="password" name="password" ng-model="credentials.password" placeholder="Password" spellcheck="false" />
+                                            <i class="fa fa-lock input-field-icon"></i>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="error-message hide" id="loginError">
+                                        <span class="text-danger err-msg">Please Enter the Username / Password correctly</span>
+                                        <span class="hide">The Username and Password incorrect</span>
+                                    </div>
+                                </li>
+                                <li class="clear-float">
+                                    <div class="showpassword-container pull-left">
+                                        <input type="checkbox" class="input-checkbox" name="showpasswordfield" id="showpassword" />
+                                        <label for="showpassword" class="showpassword-btn">Show Password</label>
+                                    </div>
+                                    <p class="forgot-pwd-btn pull-right">Forgot Password?</p>
+                                </li>
+                                <li>
+                                    <div class="input-group">
+
+                                        <div class="input-field align-center">
+                                            <button type="submit" onclick="loginSuccess()" class="input-btn green-btn" id="submitbtn">Submit</button>
+                                        </div>
+                                         <!-- Loader element -->
+                                      <!--   <div class="loader-container">
+                                            <div class="loader"></div>
+                                        </div> -->
+                                        <div class="overlay" id="overlay"></div>
+                                        <div class="loader-containerr hidden">
+					                         <div class="loadloaderr"></div>
+				                         </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+                
+               
+            </div>
+        </div>
+    </section>
+
+
+	 <div class="popup-body-container hide" id="forgotpassword" style="z-index: 99999999">
+        <div class="popup-container" style="width: 400px;">
+            <div class="popup-header">
+                <h4 class="message-popup-head" id="forgotpasswordPophead">Forgot Password</h4><i class="close-pop-btn hide">X</i>
+            </div>
+            <div class="popup-body" style="min-height: 80px;">
+			<form name="userForm" id="userForm">
+                <ul class="form-container">                  
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: table;">
+                        <div class="input-group">
+                            <div class="label-field">
+                                <label>User name</label>
+                            </div>
+                            <div class="input-field input-icon">
+                                <input ng-model="userName" class="input-text1" type="text" style="padding-right: 32px;"  id="textInput"/>
+                                <!-- <i class="fa fa-envelope input-field-icon"></i> -->
+                            </div>
+                        </div>
+                    </li>
+					
+					        <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hide" id="questionField" style="display: table;">
+                        <div class="input-group">
+                            <div class="label-field">
+                                <label>Security Question</label>
+                            </div>
+                            <div class="input-field input-icon">
+                                <input ng-model="secQuestion" class="input-text1" type="text" style="padding-right: 32px;" disabled="true" />
+                            </div>
+                        </div>
+                    </li>
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hide" id="answerField" style="display: table;">
+                        <div class="input-group">
+                            <div class="label-field">
+                                <label>Answer</label>
+                            </div>
+                            <div class="input-field input-icon">
+                                <input ng-model=answer class="input-text1" type="text" style="padding-right: 32px;" id="answer_input"/>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hide" id="passwordField" style="display: table;">
+                        <div class="input-group">
+                            <div class="label-field">
+                                <label>Password</label>
+                            </div>
+                            <div class="input-field input-icon">
+                                <input ng-change="checkPassword(password, confirmPassword)" ng-model="password" class="input-text1" type="password" 
+								id="password" name="password" 
+					  ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/" required/>
+                                <i class="fa fa-lock input-field-icon"></i>
+                            </div>
+					   <div ng-if="userForm.$submitted || userForm.password.$touched" class="text-danger err-msg">
+                      <span ng-if="userForm.password.$error.required ">The Password is required</span>
+					  <span ng-if="userForm.password.$error.pattern ">The Password must contains minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character</span>
+                    </div>
+                        </div>
+                    </li>
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hide" id="confirmpasswordField" style="display: table;">
+                        <div class="input-group">
+                            <div class="label-field">
+                                <label>Confirm Password</label>
+                            </div>
+                         
+						  <div class="input-field input-icon">
+                                    <input type="password" id="confirmPassword"
+                                        name="confirmPassword" ng-model="confirmPassword" class="input-text1 finalBtn" required
+                                        compare-to="password" />
+                                    <i class="fa fa-lock input-field-icon"></i>
+                                    <div ng-if="userForm.$submitted || userForm.confirmPassword.$touched"
+                                        class="text-danger err-msg">
+                                        <span ng-if="userForm.confirmPassword.$error.compareTo">Password and Confirmation Password
+                                            doesn't match</span>
+											<span ng-if="userForm.confirmPassword.$error.required ">Confirm Password is required</span>
+                                    </div>
+                                </div>
+                    </li>
+					<li ng-show="showMessage" id="errormessage">
+                        <p style="margin:0px; color:red;">
+                            {{error}}
+                        </p>
+                    </li>
+                </ul>
+				</form>
+            </div>
+            <div class="popup-footer">
+                <ul class="popup-btn-container">
+					<li class="pull-right"><button ng-show="findUserbtn" ng-click="findUser()" class="input-btn1 green-btn" id="finduser">Find User</button></li>
+					<li class="pull-right"><button ng-show="answerBtn" ng-click="checkAnswer()" class="input-btn1 green-btn" id="answerbtn">Submit</button></li>
+					<li class="pull-right"><button ng-show="finalBtn" ng-click="editPassword()" class="input-btn1 green-btn" id="finalbtn">Submit</button></li>
+					<!-- <li class="pull-right"><button class="input-btn1 green-btn" id="proceedBtn">Proceed</button></li> -->
+                    <li class="pull-right"><button class="input-btn1 green-btn popup-close-btn hide" id="resetBtn">Reset</button></li>
+                    <li class="pull-right"><button class="input-btn1 red-btn popup-close-btn" id="cancelbtn" ng-click="cancel()">Cancel</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+	</div>
+
+
+    <script>
+        //Popup
+        $(document).on("click", '.forgot-pwd-btn', function () {
+            $('.popup-body-container#forgotpassword').removeClass("hide");
+            setTimeout(function () {
+                $('.popup-body-container#forgotpassword').addClass("popup-active");
+            }, 100);
+            $('#forgotpasswordPophead').text('Forgot Password');
+        });
+        //Popup
+        //Show Password
+        $(document).on("click", '.showpassword-btn', function () {
+            setTimeout(function () {
+                if ($("#showpassword").prop("checked")) {
+                    $(".input-password").attr("type", "text").focus();
+                } else {
+                    $(".input-password").attr("type", "password").focus();
+                }
+            }, 100);
+
+        });
+        //Show Password
+
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".login-container").addClass("login-active");
+            }, 500);
+        });
+		
+		function resetValues(){
+            $('#questionField').addClass("hide");
+            $('#answerField').addClass("hide");
+            $('#passwordField').addClass("hide");
+            $('#confirmpasswordField').addClass("hide");
+            $('#resetBtn').addClass("hide");
+            $('#proceedBtn').removeClass("hide");
+        }
+		
+		$(document).ready(function () {     
+    $('.popup-close-btn').click(function () {
+        resetValues();
+    });
+	});
+		
+    </script>
+</body>
+</html>

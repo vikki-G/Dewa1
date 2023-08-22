@@ -1,0 +1,160 @@
+body.ar {
+    direction: rtl;
+}
+
+.ar .login-header:before {
+    left: auto;
+    right: 0px;
+}
+.ar .login-header:after {
+    left: 0px;
+    right: auto;
+}
+.ar .login-logo {
+    float: left !important;
+}
+
+.ar .login-form > li > .input-group > .label-field {
+    text-align: right;
+}
+
+.ar .login-form > li > .input-group > .input-field.input-icon .input-text,
+.ar .login-form > li > .input-group > .input-field.input-icon .input-password {
+    padding-right: 0px;
+    padding-left: 32px;
+    text-align: right;
+}
+.ar .login-form > li > .input-group > .input-field > .input-field-icon {
+    left: 0px;
+    right: auto;
+}
+.ar .login-footer {
+    right: 0px;
+}
+.ar .login-language-select {
+    direction: rtl;
+}
+.ar .login-language-select > li:first-child:after {
+    display: none;
+}
+    .ar .login-language-select > li:last-child:after {
+        display: block;
+    }
+
+    .ar .language-select > li:first-child:after {
+        display: none;
+    }
+
+    .ar .language-select > li:last-child:after {
+        display: block;
+    }
+
+.ar .header-detail-container {
+    float: left !important;
+}
+    .ar .header-detail-container > li {
+        padding-left: 0px;
+        padding-right: 15px;
+    }
+        .ar .header-detail-container > li.user-details .user-icon {
+            padding-right: 0px;
+            padding-left: 10px;
+        }
+
+.ar .head-container {
+    border-right: 5px solid #187b45;    
+    border-left: none;
+}
+
+.ar .h1-head {
+    float: right !important;
+}
+.ar .add-btn {
+    float: left !important;
+}
+.ar .sort-container > .col-sm-6 {
+    float: right;
+}
+.ar .sort-container .dataTables_filter label .input-text1 {
+    margin-left: 0px;
+    margin-right: 5px;
+}
+.ar .sort-container .dataTables_filter label {
+    float: left;
+}
+.ar .add-btn i {
+    margin-left: 5px;
+    margin-right: 0px;
+}
+.ar .table-container > thead > tr > th {
+    text-align: right;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+.ar .table-container thead tr th.sorting::before,
+.ar .table-container thead tr th.sorting_asc::before,
+.ar .table-container thead tr th.sorting_desc::before,
+.ar .table-container thead tr th.sorting::after,
+.ar .table-container thead tr th.sorting_asc::after,
+.ar .table-container thead tr th.sorting_desc::after {
+    right: auto;
+    left: 5px;
+}
+
+.ar .pagenation-container > div.col-sm-5,
+.ar .pagenation-container > div.col-sm-7 {
+    float: right;
+}
+
+.ar .pagenation-container .pagination {
+    float: left;
+}
+    .ar .pagenation-container .pagination > li {
+        float: right;
+    }
+
+.ar .popup-btn-container > li {
+    float: left !important;
+}
+
+
+.ar .form-container.single-row-feald > li > .input-group > .label-field {
+    padding-left: 10px;
+    padding-right: 0;
+}
+.ar .form-container > li > .input-group.flex > .label-field {
+    padding-right: 0px;
+    padding-left: 10px;
+}
+.ar .btn-container2 {
+    float: left !important;
+}
+    .ar .btn-container2 > li {
+        padding-left: 0px;
+        padding-right: 10px;
+    }
+
+.ar .file-upload-container .custom-file-upload {
+    margin-left: 5px;
+    margin-right: 0px;
+}
+
+.ar .input-multiselect .multiselect-native-select > .btn-group > .multiselect.btn {
+    padding-left: 20px;
+    padding-right: 5px;
+}
+.ar .input-multiselect .multiselect-native-select > .btn-group > .multiselect > .multiselect-selected-text {
+    text-align: right;
+}
+.ar .input-multiselect .multiselect-native-select > .btn-group > .multiselect > .caret {
+    left: 10px;
+    right: auto;
+}
+.ar .input-multiselect .multiselect-native-select > .btn-group > .multiselect-container.dropdown-menu > li.muliselect-option > a > label {
+    padding-right: 30px;
+    padding-left: 5px;
+}
+    .ar .input-multiselect .multiselect-native-select > .btn-group > .multiselect-container.dropdown-menu > li.muliselect-option > a > label:before {
+        right: 5px;
+        left: auto;
+    }

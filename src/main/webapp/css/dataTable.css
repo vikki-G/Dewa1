@@ -1,0 +1,170 @@
+.sort-container {
+    padding: 5px 0px;
+    display: table;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    border-radius: 0px;
+    background-color: #768991;
+    height: 34px;
+}
+.sort-container > .col-sm-6 {
+	padding: 0px 10px;
+}
+.sort-container .dataTables_length {
+
+}
+
+.sort-container .dataTables_length label {
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0px;
+    padding: 0px;
+    color: #FFFFFF;
+}
+
+    .sort-container .dataTables_length label .input-select1 {
+        margin: 0px 5px 0px 5px;
+        width: auto;
+        border: 1px solid #FFFFFF;
+        padding: 2px 5px;
+        font-size: 13px;
+        color: #484848;
+        border-radius: 3px;
+        transition: ease 0.5s;
+        -webkit-transition: ease 0.5s;
+        height: 24px;
+    }
+
+.sort-container .dataTables_filter {
+	width: 100%;
+	display: table;
+}
+
+.sort-container .dataTables_filter label {
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0px;
+    padding: 0px;
+    color: #FFFFFF;
+    float: right;
+
+}
+
+.sort-container .dataTables_filter label .input-text1 {
+	margin: 0px 0px 0px 5px;
+	width: auto;
+    border: 1px solid #FFFFFF;
+    padding: 5px;
+    font-size: 13px;
+    color: #484848;
+    border-radius: 3px;
+    transition: ease 0.5s;
+    -webkit-transition: ease 0.5s;
+    height: 24px;
+
+}
+.table-container thead tr th.sorting::before,
+.table-container thead tr th.sorting_asc::before,
+.table-container thead tr th.sorting_desc::before,
+.table-container thead tr th.sorting::after,
+.table-container thead tr th.sorting_asc::after,
+.table-container thead tr th.sorting_desc::after {
+    position: absolute;
+    z-index: 9;
+    font-family: 'Font Awesome 5 Free';
+    color: #FFFFFF;
+    width: 8px;
+    height: 8px;
+    right: 5px;
+    font-weight: 900;
+}
+
+.table-container thead tr th.sorting::before,
+.table-container thead tr th.sorting_asc::before,
+.table-container thead tr th.sorting_desc::before  {
+    content: "\f0de";
+    top: 10px;
+}
+.table-container thead tr th.sorting::after,
+.table-container thead tr th.sorting_asc::after,
+.table-container thead tr th.sorting_desc::after  {
+    content: "\f0dd";
+    top: 10px;
+}
+
+.table-containerthead tr th.sorting::before {
+	color: #284346;
+
+}
+
+.table-container thead tr th.sorting_asc::after {
+	color: #88A3A6;
+}
+
+.table-container thead tr th.sorting_desc::before {
+	color: #88A3A6;
+}
+
+
+
+.pagenation-container {
+	padding: 5px 0px;
+	display: table;
+	width: 100%;
+	margin: 0px 0px 0px 0px;
+	border-radius: 0px;
+	border-bottom: 1px solid #c3ccce;
+	border-left: 1px solid #c3ccce;
+	border-right: 1px solid #c3ccce;
+	border-top: none;
+	background-color: #d3dcde;
+}
+
+.pagenation-container > div {
+	padding: 0px 10px;
+}
+.pagenation-container .dataTables_info {
+	font-size: 13px;
+	font-weight: 300;
+	margin: 0px;
+	padding: 0px;
+	color: #082326;
+	line-height: 26px;
+}
+
+.pagenation-container .pagination {
+	margin: 0px;
+	float: right;
+}
+.pagenation-container .pagination > li {
+	}
+.pagenation-container .pagination > li > a {
+	font-size: 13px;
+	padding: 5px 10px;
+	border-color: #c3ccce;
+	color: #484848;
+	line-height: 15px;
+	}
+.pagenation-container .pagination > li.active > a {
+	background-color: #009548;
+	border-color: #009548;
+	color: #FFFFFF;
+	}
+.pagenation-container .pagination > li.disabled > a {
+	color: #c3ccce;
+
+	}
+
+
+.dataTables_wrapper {
+    height: 100%;
+}
+    .dataTables_wrapper .datatable-main-container {
+        height: calc(100% - 71px);
+    }
+        .dataTables_wrapper .datatable-main-container .datatable-inner-container {
+            height: 100%;
+        }
+        .dataTables_wrapper .datatable-main-container .datatable-inner-container.scroll-container {
+            overflow: auto;
+        }

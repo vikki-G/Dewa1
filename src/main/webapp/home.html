@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+  <html ng-app="DEWAReportingPortal_Home">
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link type="text/css" href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <title>DEWA</title>
+     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="fonts/Font-Awesome-5.13.0/font-awesome.css" />
+    <link type="text/css" rel="stylesheet" href="fonts/Roboto-Font/Roboto-RCondensed.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/loader.css" />
+
+    <link rel="stylesheet" type="text/css" href="css/dataTable.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.growl.css" />
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="js/jquery.growl.js"></script>
+    <script type="text/javascript" src="js/jquery.idle.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/inline-script.js"></script>
+
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/home.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+
+  </head>
+
+  <body class="en" ng-controller="HomeController">
+    <div class="body-container">
+      <aside class="aside-container">
+        <div class="header-logo1">
+         <img class="logo " src="images/DEWA-logo.png" alt="DEWA" title="DEWA" />
+        </div>
+        <nav class="menu-container">
+          <ul class="hide_menu">
+             <li ng-show="hasAccess1('UserManagement')">
+                 <a href="user-management.html">User Management</a>
+             </li>
+             <li ng-show="hasAccess1('RoleManagement')">
+                 <a href="role-management.html">Role Management</a>
+             </li>
+            
+             <li>
+             <!-- <li ng-show="hasAccess1('IT Emergency Report')" class="active"> -->
+                         <a href="javascript:void(0)" class="submenu-head">IT Reports</a>
+                         <ul class="submenu-list">
+                             <li  ng-show="hasAccess1('Call Transaction Report')" class="active">
+                                <a href="agent-ITTransaction-report.html">Call Transaction Report</a>
+                             </li>
+                             <li  ng-show="hasAccess1('Summary Report')" class="active">
+                              <a href="agent-ITSummary-report.html">Summary Report</a>
+                           </li>
+                           <li ng-show="hasAccess1('Detailed Report')" class="active">
+                            <a href="agent-ITDetailed-report.html">Detailed Report</a>
+                         </li>
+                         </ul>
+             </li>
+           
+       
+         </ul>
+     </nav>
+      </aside>
+      <div class="body-right-container">
+        <header class="header-container">
+          <ul class="header-detail-container pull-right">
+            <li class="user-details"><i class="fa fa-user user-icon"></i>
+              <p><span class="user-text-select" onclick="openUserProfile()">{{ logged_in_user }}</span></p>
+            </li>
+            <li><button onclick="logout()" class="logout-btn"><i class="fa fa-power-off"></i></button></li>
+          </ul>
+        </header>
+		
+		
+			<div class="popup-body-container  hide" id="userProfilePop" style="z-index: 99999999">
+      <div class="popup-container">
+        <div class="popup-header">
+          <h4 class="message-popup-head" id="userProfilePophead">User profile</h4><i class="close-pop-btn hide">X</i>
+        </div>
+        <div class="popup-body" style="min-height: 80px;">
+          <form name="usereditForm" id="usereditForm">
+            <ul class="form-container">
+              <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>User Name</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input readonly class="input-text" ng-model="userProfile.userName" />
+
+                    <i class="fa fa-user input-field-icon"></i>
+
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>First Name</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfile.firstName" class="input-text" type="text" id="userProfileFirstName" name="firstName"
+                      required />
+                    <i class="fa fa-user input-field-icon"></i>
+                    <div ng-if="usereditForm.$submitted || usereditForm.firstName.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.firstName.$error.required ">The First Name is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Last Name</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfile.lastName" class="input-text" type="text" id="userProfileLastName" name="lastName"
+                      required />
+                    <i class="fa fa-user input-field-icon"></i>
+                    <div ng-if="usereditForm.$submitted || usereditForm.lastName.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.lastName.$error.required ">The Last Name is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: table;">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Email</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfile.email" class="input-text" type="email" id="userProfileEmail" name="email" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required />
+                    <i class="fa fa-envelope input-field-icon"></i>
+                    <div ng-if="usereditForm.$submitted || usereditForm.email.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.email.$error.required ">The Email is required</span>
+                      <span ng-if="usereditForm.email.$error.pattern">The Email is invalid</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Password</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfile.password"
+                      class="input-password" type="password" id="userProfilePassword" name="password" required />
+                    <i class="fa fa-lock input-field-icon"></i>
+                    <div class="text-danger err-msg">Password and confirm password does not match</div>
+                   <!-- <div ng-if="usereditForm.$submitted || usereditForm.password.$touched" class="text-danger err-msg"> 
+                      <span ng-if="usereditForm.password.$error.required ">The Password is required</span>
+					  <span ng-if="usereditForm.password.$error.pattern ">The Password must contains minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character</span> 
+                    </div> -->
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Confirm Password</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfileConfirmPassword"
+                      class="input-password" type="password" id="confirmPassword" name="confirmPassword" required />
+                    <i class="fa fa-lock input-field-icon"></i>
+                    <div ng-if="usereditForm.$submitted || usereditForm.confirmPassword.$touched"
+                      class="text-danger err-msg">
+                     <!-- <span ng-if="usereditForm.confirmPassword.$error.compareTo">Password Confirmation doesn't -->
+                        match</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+				<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: table;">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Security question</label>
+                  </div>
+                  <div class="input-field ">
+                    <select ng-model="userProfile.securityQuestion" class="input-select" id="userProfileSecurityQuestion" name="securityQuestion" required>
+
+                      <option>What is the name of your first pet?</option>
+                      <option>What is your mother's maiden name?</option>
+					  <option>What was your first car?</option>
+					  <option>What elementary school did you attend?</option>
+					  <option>What is the name of the town where you were born?</option>
+                    </select>
+                    <div ng-if="userForm.$submitted || userForm.securityQuestion.$touched" class="text-danger err-msg">
+                      <span ng-if="userForm.securityQuestion.$error.required ">Security question is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+			  
+			  <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Answer</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfile.answer" class="input-text" type="text" id="userProfileAnswer" name="answer"
+                      required />
+                    <div ng-if="userForm.$submitted || userForm.answer.$touched" class="text-danger err-msg">
+                      <span ng-if="userForm.answer.$error.required ">Answer is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+				
+              <li ng-hide="true" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Status</label>
+                  </div>
+                  <div class="input-field ">
+                    <select ng-disabled="true" ng-model="userProfile.status" class="input-select" id="userProfileStatus" name="status" required>
+
+                      <option>Active</option>
+                      <option>In-Active</option>
+                    </select>
+                    <div ng-if="usereditForm.$submitted || usereditForm.status.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.status.$error.required ">The Status is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li ng-hide="true" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Role</label>
+                  </div>
+                  <div class="input-field">
+                    <select ng-model="userProfile.roleId" class="input-select" name="role" id="role" required
+                      ng-options="role.id as role.roleName for role in roles"></select>
+                    <div ng-if="usereditForm.$submitted || usereditForm.role.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.role.$error.required ">The Role is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </form>
+        </div>
+        <div class="popup-footer">
+          <ul class="popup-btn-container">
+            <li class="pull-right"><button class="input-btn1 red-btn popup-close-btn">Cancel</button></li>
+            <li class="pull-right"><button onclick="updateUserProfile()" class="input-btn1 green-btn">Submit</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+        </div>
+		
+		</body>
+		</html>

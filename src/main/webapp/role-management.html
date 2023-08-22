@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+  <html ng-app="DEWAReportingPortal_Role">
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link type="text/css" href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <title>DEWA</title>
+     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="fonts/Font-Awesome-5.13.0/font-awesome.css" />
+    <link type="text/css" rel="stylesheet" href="fonts/Roboto-Font/Roboto-RCondensed.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/loader.css" />
+    <link rel="stylesheet" type="text/css" href="css/dataTable.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-custom-multiselect.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-angular-multiselect.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.growl.css" />
+
+
+    <script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+	<script type="text/javascript" src="js/jquery.growl.js"></script>
+    <script type="text/javascript" src="js/jquery.idle.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
+    <!-- <script type="text/javascript" src="js/bootstrap-multiselect.js"></script> -->
+    <script type="text/javascript" src="js/inline-script.js"></script>
+
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/role.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/angularjs-dropdown-multiselect.min.js"></script>
+    <script type="text/javascript" src="js/loader.js"></script>
+    
+
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.7.0/lodash.min.js"></script>
+							<link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" /> -->
+
+    <style>
+      .multiselect-parent {
+        width: 100% !important;
+        height: 32px !important;
+      }
+
+      .multiselect-parent .dropdown-toggle {
+        width: 100% !important;
+        text-align: left;
+      }
+
+      .multiselect-parent .dropdown-toggle:hover,
+      .multiselect-parent .dropdown-toggle:active,
+      .multiselect-parent .dropdown-toggle:focus {
+        background-color: transparent;
+      }
+
+      .multiselect-parent .dropdown-toggle .caret {
+        float: right;
+        margin-top: 9px;
+      }
+
+      .multiselect-parent .dropdown-menu {
+        width: 100% !important;
+      }
+        .form-container > li:last-child {
+            padding-bottom: 0px;
+        }
+        .table-container > thead > tr > th, 
+        .table-container > tbody > tr > td {
+          vertical-align: top;
+        }
+		   .table-container > thead > tr > th.features_tb {
+             width: 310px !important;
+    }
+    </style>
+
+  </head>
+
+  <body class="en" ng-controller="RoleController">         
+    <div class="body-container">
+      <aside class="aside-container">
+        <div class="header-logo1">
+        <img class="logo " src="images/DEWA-logo.png" alt="DEWA" title="DEWA" />
+        </div>
+        <nav class="menu-container">
+          <ul class="hide_menu">
+             <li ng-show="hasAccess1('UserManagement')">
+                 <a href="user-management.html">User Management</a>
+             </li>
+             <li ng-show="hasAccess1('RoleManagement')">
+                 <a href="role-management.html">Role Management</a>
+             </li>
+            
+             <li>
+             <!-- <li ng-show="hasAccess1('IT Emergency Report')" class="active"> -->
+                         <a href="javascript:void(0)" class="submenu-head">IT Reports</a>
+                         <ul class="submenu-list">
+                             <li  ng-show="hasAccess1('Call Transaction Report')" class="active">
+                                <a href="agent-ITTransaction-report.html">Call Transaction Report</a>
+                             </li>
+                             <li  ng-show="hasAccess1('Summary Report')" class="active">
+                              <a href="agent-ITSummary-report.html">Summary Report</a>
+                           </li>
+                           <li ng-show="hasAccess1('Detailed Report')" class="active">
+                            <a href="agent-ITDetailed-report.html">Detailed Report</a>
+                         </li>
+                         </ul>
+             </li>
+           
+       
+         </ul>
+     </nav>
+
+      </aside>
+      <div ng-show="hasAccess1('RoleManagement')" class="body-right-container">
+        <header class="header-container">
+          <ul class="header-detail-container pull-right">
+            <li class="user-details"><i class="fa fa-user user-icon"></i>
+		<!-- onclick="openUserProfile()" -->
+              <p><span class="user-text-select">{{ logged_in_user }}</span></p>
+            </li>
+            <li><button onclick="logout()" class="logout-btn"><i class="fa fa-power-off"></i></button></li>
+          </ul>
+        </header>
+        <section class="section-container" id="rolemanagement">
+
+          <div class="head-container">
+            <h1 class="h1-head pull-left">Role Management</h1>
+           <div class="addrole-btn" ng-show="hasAccess1('Modify')">   
+			<!--  <div id="addrole"> -->
+            <button class="add-btn add-user-btn green-btn pull-right" ng-click="addRole()" ><i class="fa fa-plus"></i>
+              Add Role</button>
+		   </div> 
+        <!--   </div> -->
+          </div>
+    <div class="overlay" id="overlay"  style="display: block !important;"></div>
+	<div class="loader-containerr">
+		<div class="loadloaderr"></div>
+	</div>
+          <div class="report-table-container">
+            <div class="report-table-inner-container">
+              <table class="table-container" style="width: 100%; table-layout: auto;" id="RoleManagementTable">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Role Name</th>
+                    <th class="features_tb" style="width: 310px !important;">Features</th>
+                    <th>Created On</th>
+                    <th>Created By</th>
+                    <th>Updated On</th>
+                    <th>Updated By</th>
+                    <th>Status</th>
+					        <th>SectionsAccesible</th>
+                    <th class="align-center action-table" style="width:70px !important;" ng-show="hasAccess1('Modify')">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="role in roles">
+                    <td>{{ $index + 1}}</td>
+                    <td>{{ role.roleName }}</td>
+                    <td style="white-space: pre-wrap; overflow-wrap: anywhere;">{{ role.featuresList }}</td>
+                    <td>{{ role.createdOn }}</td>
+                    <td>{{ role.createdBy }}</td>
+                    <td>{{ role.updatedOn }}</td>
+                    <td>{{ role.updatedBy }}</td>
+                    <td>{{ role.status }}</td>
+					          <td style="white-space: pre-wrap; overflow-wrap: anywhere;" class="td-support-type" >{{ role.sectionsAccessible }}</td>
+                    <td ng-show="hasAccess1('Modify')">
+                      <ul class="action-btn-container">
+                        <li>
+                          <i title="Edit" class="fa fa-edit edit-btn" ng-click="editRole(role)" id="editbtn"></i>
+                        </li>
+                        <li>
+                          <i title="Delete" class="fa fa-trash delete-btn"
+                            ng-click="deletePopup(role.id , role.roleName)" ></i>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  
+    <div class="popup-body-container  hide" id="addRolePop" style="z-index: 99999999">
+      <div class="popup-container">
+        <div class="popup-header">
+          <h4 class="message-popup-head" id="addRolePophead">Add Role</h4><i class="close-pop-btn hide">X</i>
+        </div>
+        <div class="popup-body" style="min-height: 80px; padding: 25px 15px;">
+          <form name="roleForm" id="roleForm">
+            <ul class="form-container">
+              <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Role Name</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-pattern="/^[a-zA-Z]*$/" ng-model="role.roleName" class="input-text" type="text"
+                      id="roleName" name="roleName" required />
+                    <i class="fa fa-user input-field-icon"></i>
+                    <div ng-if="roleForm.$submitted || roleForm.roleName.$touched" class="text-danger err-msg">
+                      <span ng-if="roleForm.roleName.$error.required ">The Role Name is
+                        required</span>
+                      <span ng-if="roleForm.roleName.$error.pattern ">Enter valid Role Name</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Role Status</label>
+                  </div>
+                  <div class="input-field">
+                    <select ng-model="role.status" class="input-select" , id="status" name="status" required>
+                      <option>Active</option>
+                      <option>In-Active</option>
+                    </select>
+                    <div ng-if="roleForm.$submitted || roleForm.status.$touched" class="text-danger err-msg">
+                      <span ng-if="roleForm.status.$error.required ">The Role Status is
+                        required</span>
+
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12 role_featurs_option" style="display: table;">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Role Features :</label>
+                  </div>
+                  <div class="input-field input-multiselect" id="role_featurs_option">
+                    <!-- <select ng-model="role.features" class="input-select" tabindex="0" id="roleFeatures" multiple="multiple"> -->
+                    <!-- <option ng-repeat="f in features" values="{{f.id}}">{{ f.featureName }}</option> -->
+                    <!-- </select> -->
+                    <div ng-dropdown-multiselect="" options="features" selected-model="featureDropdown"
+                      checkboxes="true" extra-settings="featureSetting" style="width:100%;" class="role_features"></div>
+					  <div class="text-danger err-msg"><span ng-if="errorMessage!=null">{{errorMessage}}</span></div>
+                  </div>
+                </div>
+              </li>
+
+			  
+			 <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12 campaign_field hide" style="display: table;">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Sections:</label>
+                  </div>
+                  <div class="input-field input-multiselect">
+                      <!-- <div ng-dropdown-multiselect="" options="type" selected-model="typeDropdown"
+      checkboxes="true" extra-settings="campaignSetting" style="width:100%;"></div> -->
+                      <div class="multiselect_field flex-wrap" id="add-support-type">
+                          <div class="multiselect_option_search">
+                              <input type="text" class="input-search" id="inputsearch" placeholder="Type to search">
+                              <i class="clear">X</i>
+                          </div>
+                          <ul class="multiselect_group_option">
+                              <li>
+                                  <div class="group_name_head">
+                                      <h4 class="group_name">Sections Accessible</h4>
+                                      <label class="select-all"><input type="checkbox" class="input-checkbox" id="sectionsAccessible" data-name="sectionsAccessible" name="Call Transaction Report" value="Select All" required >Select All <i class="checker"></i></label>
+                                  </div>
+                                  <ul class="multiselect_group_option_list">
+
+
+                                      <!--<label ng-repeat="role in type">
+                                          <input type="checkbox" checklist-model="role.label" checklist-value="role.label"> {{role.label}}
+                                      </label>-->
+                                      <li class="hide"></li>
+                                      <li ng-repeat="role in type"><label><input type="checkbox" class="input-checkbox" data-name="sectionsAccessible" name="Call Transaction Report" value={{role.label}}>{{role.label}} <i class="checker"></i></label></li>
+                                  </ul>
+                              </li>
+                          </ul>
+                          <textarea class="input-textarea selected_val hide" ng-model="role.label" placeholder="Select Sections" readonly=""></textarea>
+                      </div>
+                      <!-- <div class="text-danger err-msg" ng-show="formName.$submitted && formName.sectionsAccessible.$invalid">
+                        <span>Please select at least one section.</span>
+                    </div> -->
+                      <div class="text-danger err-msg"><span ng-if="errorMessageType!=null">{{errorMessageType!=null}}</span></div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </form>
+        </div>
+        <div class="popup-footer">
+          <ul class="popup-btn-container">
+            <li class="pull-right"><button ng-click="cancel()" class="input-btn1 red-btn popup-close-btn" id="roleCancel_btn">Cancel</button></li>
+            <li class="pull-right"><button ng-click="save()" class="input-btn1 green-btn" id="rolesubmit" >Submit</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  	
+
+    <div class="popup-body-container  hide" id="editRolePop" style="z-index: 99999999">
+      <div class="popup-container">
+        <div class="popup-header">
+          <h4 class="message-popup-head" id="editRolePophead">Edit Role</h4><i class="close-pop-btn hide">X</i>
+        </div>
+        <div class="popup-body" style="min-height: 80px; padding: 25px 15px;">
+          <form name="roleeditForm" id="roleeditForm">
+              <ul class="form-container">
+                  <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="input-group">
+                          <div class="label-field">
+                              <label>Role Name</label>
+                          </div>
+                          <div class="input-field input-icon">
+                              <input ng-model="role.roleName" class="input-text" type="text" name="role" id="role" required readonly />
+                              <i class="fa fa-user input-field-icon"></i>
+                              <div ng-if="roleeditForm.$submitted || roleedForm.roleName.$touched" class="text-danger err-msg">
+                                  <span ng-if="roleeditForm.roleName.$error.required ">
+                                      The Role Name is
+                                      required
+                                  </span>
+                                  <span ng-if="roleeditForm.roleName.$error.pattern ">Enter valid Role Name</span>
+                              </div>
+                          </div>
+                      </div>
+                  </li>
+                  <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="input-group">
+                          <div class="label-field">
+                              <label>Role Status</label>
+                          </div>
+                          <div class="input-field">
+                              <select ng-model="role.status" class="input-select" name="status" required>
+                                  <option>Active</option>
+                                  <option>In-Active</option>
+                              </select>
+                              <div ng-if="roleeditForm.$submitted || roleeditForm.status.$touched" class="text-danger err-msg">
+                                  <span ng-if="roleeditForm.status.$error.required ">
+                                      The Role Status is
+                                      required
+                                  </span>
+
+                              </div>
+                          </div>
+                      </div>
+                  </li>
+                  <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: table;">
+
+                      <div class="input-group">
+                          <div class="label-field">
+                              <label>Role Features :</label>
+                          </div>
+                          <div class="input-field input-multiselect angular-input-multiselect" id="role_featurs_option">
+                              <div ng-dropdown-multiselect="" options="features" selected-model="featureDropdown"
+                                   checkboxes="true" extra-settings="featureSetting" style="width:100%;" class="role_features"></div>
+                          </div>
+                          <div class="text-danger err-msg"><span ng-if="errorMessage!=null">{{errorMessage}}</span></div>
+                      </div>
+                  </li>
+
+
+                  <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12  campaign_field" style="display: table;">
+                      <div class="input-group">
+                          <div class="label-field">
+                              <label>SectionsAccessible :</label>
+                          </div>
+                          <div class="input-field input-custom-multiselect">
+                              <!--<div ng-dropdown-multiselect="" options="type" selected-model="typeDropdown"
+    checkboxes="true" extra-settings="campaignSetting" style="width:100%;"></div>   -->
+                              <div class="multiselect_field flex-wrap" id="edit-support-type">
+                                  <div class="multiselect_option_search">
+                                      <input type="text" class="input-search" id="inputsearch" placeholder="Type to search">
+                                      <i class="clear">X</i>
+                                  </div>
+                                  <ul class="multiselect_group_option">
+                                      <li>
+                                          <div class="group_name_head">                                            
+                                              <h4 class="group_name">Sections Accessible</h4>
+                                              <label class="select-all"><input type="checkbox" class="input-checkbox" data-name="sectionsAccessible" name="Call Transaction Report" value="Select All">Select All <i class="checker"></i></label>
+                                            </div>
+                                          <ul class="multiselect_group_option_list">
+                                              <!--<li style="width: 100%;" class="select-all"><label class="select-all"><input type="checkbox" class="input-checkbox" data-name="Support Type" name="IT Emergency Report" value="Select All">Select All <i class="checker"></i></label></li>-->
+                                              <li class="hide"></li>
+                                              <li ng-repeat="role in type"><label><input type="checkbox" class="input-checkbox" data-name="sectionsAccessible" name="Call Transaction Report" value={{role.label}}>{{role.label}} <i class="checker"></i></label></li>
+                                            </ul>
+                                      </li>
+                                  </ul>
+                                  <textarea class="input-textarea selected_val hide" placeholder="Select Support type" readonly=""></textarea>
+                              </div>
+                          </div>
+                          <div class="text-danger err-msg"><span ng-if="errorMessageType!=null">{{errorMessageType!=null}}</span></div>
+                      </div>                
+                  </li>
+              </ul>
+        </div>
+        <div class="popup-footer">
+          <ul class="popup-btn-container">
+            <li class="pull-right"><button ng-click="closeBtn()" class="input-btn1 red-btn popup-close-btn">Cancel</button></li>
+            <li class="pull-right"><button ng-click="update(role)" class="input-btn1 brown-btn">Update</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="popup-body-container popup-body-msg  hide" style="z-index: 99999999">
+      <div class="popup-container">
+        <div class="popup-header">
+          <h4 class="message-popup-head"></h4><i class="close-pop-btn hide">X</i>
+        </div>
+        <div class="popup-body" style="min-height: 80px;">
+          <p class="message-popup-text msg-text"></p>
+        </div>
+        <div class="popup-footer">
+          <ul class="popup-btn-container">
+            <li class="pull-right">
+              <button class="input-btn1 red-btn popup-close-btn">Cancel</button>
+            </li>
+            <li class="pull-right">
+              <button class="input-btn1 green-btn popup-close-btn" ng-click="deleteYes()">
+                Yes
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+	
+		<div class="popup-body-container  hide" id="userProfilePop" style="z-index: 99999999" ng-show="hasAccess1('Modify')">
+      <div class="popup-container">
+        <div class="popup-header">
+          <h4 class="message-popup-head" id="userProfilePophead">User profile</h4><i class="close-pop-btn hide">X</i>
+        </div>
+        <div class="popup-body" style="min-height: 80px;">
+          <form name="usereditForm" id="usereditForm">
+            <ul class="form-container">
+              <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>User Name</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input readonly class="input-text" ng-model="userProfile.userName" />
+
+                    <i class="fa fa-user input-field-icon"></i>
+
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>First Name</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfile.firstName" class="input-text" type="text" id="userProfileFirstName" name="firstName"
+                      required />
+                    <i class="fa fa-user input-field-icon"></i>
+                    <div ng-if="usereditForm.$submitted || usereditForm.firstName.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.firstName.$error.required ">The First Name is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Last Name</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfile.lastName" class="input-text" type="text" id="userProfileLastName" name="lastName"
+                      required />
+                    <i class="fa fa-user input-field-icon"></i>
+                    <div ng-if="usereditForm.$submitted || usereditForm.lastName.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.lastName.$error.required ">The Last Name is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: table;">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Email</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfile.email" class="input-text" type="email" id="userProfileEmail" name="email" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required />
+                    <i class="fa fa-envelope input-field-icon"></i>
+                    <div ng-if="usereditForm.$submitted || usereditForm.email.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.email.$error.required ">The Email is required</span>
+                      <span ng-if="usereditForm.email.$error.pattern">The Email is invalid</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+          <!--    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Password</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-change="checkPassword(userProfile.password, userProfileConfirmPassword)" ng-model="userProfile.password"
+                      class="input-password" type="password" id="userProfilePassword" name="password"
+						ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/" required />
+                    <i class="fa fa-lock input-field-icon"></i>
+                    <div class="text-danger err-msg" ng-if="isPassword==='false'">Password and confirm password does not match</div>
+                    <div ng-if="usereditForm.$submitted || usereditForm.password.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.password.$error.required ">The Password is required</span>
+					  <span ng-if="usereditForm.password.$error.pattern ">The Password must contains minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Confirm Password</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-change="checkPassword(userProfile.password, userProfileConfirmPassword)" ng-model="userProfileConfirmPassword"
+                      class="input-password" type="password" id="confirmPassword" name="confirmPassword" required />
+                    <i class="fa fa-lock input-field-icon"></i>
+                    <div ng-if="usereditForm.$submitted || usereditForm.confirmPassword.$touched"
+                      class="text-danger err-msg">
+                      <span ng-if="usereditForm.confirmPassword.$error.compareTo">Password Confirmation doesn't
+                        match</span>
+                    </div>
+                  </div>
+                </div>
+              </li> -->
+               <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <div class="input-group">
+                <div class="label-field">
+                  <label>Passwords</label>
+                </div>
+                <div class="input-field input-icon">
+                  <input ng-model="userProfile.password" class="input-password" type="password" id="userProfilePassword"
+                    name="password" onclick="userProfPassword()" required /> 
+                  <i class="fa fa-lock input-field-icon"></i>
+                  <div id="passwordMessage" style="color: red;"></div>
+              <!--    <div class="text-danger err-msg">Password and confirm password does not
+                    match</div> 
+                  <div ng-if="usereditForm.$submitted || usereditForm.password.$touched" class="text-danger err-msg">
+                    <span ng-if="usereditForm.password.$error.required ">The Password is required</span>
+                    <span ng-if="usereditForm.password.$error.pattern ">The Password must contains minimum 8 characters,
+                      1 uppercase letter, 1 lowercase letter, 1 number and 1 special character</span>
+                  </div> -->
+                </div>
+              </div>
+            </li>
+            <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <div class="input-group">
+                <div class="label-field">
+                  <label>Confirm Password</label>
+                </div>
+                <div class="input-field input-icon">
+                  <input ng-model="userProfileConfirmPassword" class="input-password" type="password" id="userConfirmPassword"
+                    name="confirmPassword" onclick="userConfPassword()" required />
+                  <i class="fa fa-lock input-field-icon"></i>
+                    <div id="message" style="color: red;"></div>
+                <!--  <div ng-if="usereditForm.$submitted || usereditForm.confirmPassword.$touched"
+                    class="text-danger err-msg">
+                    <span ng-if="usereditForm.confirmPassword.$error.compareTo">Password Confirmation doesn't
+                      match</span>
+                  </div> -->
+                </div>
+              </div>
+            </li> 
+
+				<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display: table;">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Security question</label>
+                  </div>
+                  <div class="input-field ">
+                    <select ng-model="userProfile.securityQuestion" class="input-select" id="userProfileSecurityQuestion" name="securityQuestion" required>
+
+                      <option>What is the name of your first pet?</option>
+                      <option>What is your mother's maiden name?</option>
+					  <option>What was your first car?</option>
+					  <option>What elementary school did you attend?</option>
+					  <option>What is the name of the town where you were born?</option>
+                    </select>
+                    <div ng-if="userForm.$submitted || userForm.securityQuestion.$touched" class="text-danger err-msg">
+                      <span ng-if="userForm.securityQuestion.$error.required ">Security question is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+			  
+			  <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Answer</label>
+                  </div>
+                  <div class="input-field input-icon">
+                    <input ng-model="userProfile.answer" class="input-text" type="text" id="userProfileAnswer" name="answer"
+                      required />
+                    <div ng-if="userForm.$submitted || userForm.answer.$touched" class="text-danger err-msg">
+                      <span ng-if="userForm.answer.$error.required ">Answer is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+				
+              <li ng-hide="true" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Status</label>
+                  </div>
+                  <div class="input-field ">
+                    <select ng-disabled="true" ng-model="userProfile.status" class="input-select" id="userProfileStatus" name="status" required>
+
+                      <option>Active</option>
+                      <option>In-Active</option>
+                    </select>
+                    <div ng-if="usereditForm.$submitted || usereditForm.status.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.status.$error.required ">The Status is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li ng-hide="true" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <div class="input-group">
+                  <div class="label-field">
+                    <label>Role</label>
+                  </div>
+                  <div class="input-field">
+                 <!--   <select ng-model="userProfile.roleId" class="input-select" name="role" id="role" required
+                      ng-options="role.id as role.roleName for role in roles"></select> -->
+                       <select ng-model="userProfile.roleId" class="input-select" name="role" id="role" 
+                       ng-options="userProfile.roleId as role.roleName for role in roles" required></select>      
+                    <div ng-if="usereditForm.$submitted || usereditForm.role.$touched" class="text-danger err-msg">
+                      <span ng-if="usereditForm.role.$error.required ">The Role is required</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </form>
+        </div>
+        <div class="popup-footer">
+          <ul class="popup-btn-container">
+            <li class="pull-right"><button class="input-btn1 red-btn popup-close-btn">Cancel</button></li>
+            <li class="pull-right"><button onclick="updateUserProfile()" class="input-btn1 green-btn">Submit</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+     
+
+
+    <script>
+     
+      //Datatable Height
+      $(document).ready(
+        function () {
+          function setHeight() {
+            windowHeight = $(window).innerHeight();
+            $('.report-table-container').height(
+              $(window).height() - 64 - $("header").height() - $(".head-content").height());
+          };
+          setHeight();
+
+          $(window).resize(function () {
+            setHeight();
+          });
+
+          $(window).scroll(function () {
+            setHeight();
+          });
+
+
+        });
+      //Datatable Height
+  
+  
+     
+			
+      $(document).ready(function(){
+$(document).on("click", '.form-container .role_features .dropdown-menu > li.ng-scope label, .form-container .role_features .dropdown-menu > li.check_uncheckall div.checkAll a', function() {
+  if($(".checkboxInput[value='Call Transaction Report']").prop("checked")){   
+    $(".campaign_field").removeClass("hide");
+    }
+    else if($(".checkboxInput[value='UserManagement']").prop("checked")){
+      $(".campaign_field").removeClass("hide");
+    }
+	 else if($(".checkboxInput[value='RoleManagement']").prop("checked")){
+      $(".campaign_field").removeClass("hide");
+    }
+	else if($(".checkboxInput[value='Call Transaction Report']").prop("checked")){
+      $(".campaign_field").removeClass("hide");
+    }
+	else if($(".checkboxInput[value='Reports Download']").prop("checked")){
+      $(".campaign_field").removeClass("hide");
+    }
+    else if($(".checkboxInput[value='Detailed Report']").prop("checked")){
+      $(".campaign_field").removeClass("hide");
+    }
+    else if($(".checkboxInput[value='Summary Report']").prop("checked")){
+      $(".campaign_field").removeClass("hide");
+    }
+	else if($(".checkboxInput[value='Modify']").prop("checked")){
+      $(".campaign_field").removeClass("hide");
+    }
+	else if($(".checkboxInput[value='Mail']").prop("checked")){
+      $(".campaign_field").removeClass("hide");
+    }
+     else {
+        resetsuppottype();
+    $(".campaign_field").addClass("hide");
+    $(".campaign_field li.check_uncheckall div.uncheckAll a").trigger('click'); 
+  }  
+});
+
+$(document).on("click", '.form-container .role_features .dropdown-menu > li.check_uncheckall div.checkAll a', function() {
+	if($(".checkboxInput[value='Call Transaction Report']").prop("checked")){		
+		$(".campaign_field").removeClass("hide");
+    } else {
+		$(".campaign_field").addClass("hide");
+		$(".campaign_field li.check_uncheckall div.uncheckAll a").trigger('click'); 
+	}  
+});
+
+
+
+$(document).on("click", '.form-container .role_features .dropdown-menu > li.check_uncheckall div.uncheckAll a', function() {
+	$(".campaign_field li.check_uncheckall div.uncheckAll a").trigger('click'); 
+    $(".campaign_field").addClass("hide");
+    resetsuppottype();
+ 
+});
+    function resetsuppottype() {
+        $(".multiselect_group_option .input-checkbox, .multiselect_group_option .select-all").prop("checked", false);
+        $(".selected_val").val("");
+    }
+
+/*Custom Multiselect*/
+
+//-- input search --//
+        $(document).on("keyup", ".multiselect_field .multiselect_option_search .input-search", function () {
+            var dropdownParenteleID = $(this).closest(".multiselect_field").attr("id");
+            var value = this.value.toLowerCase().trim();
+            $("#" + dropdownParenteleID + " .multiselect_group_option > li > .multiselect_group_option_list > li").each(function (index) {
+                if (!index)
+                    return;
+                $(this).find("label").each(function () {
+                    var id = $(this).text().toLowerCase().trim();
+                    var not_found = (id.indexOf(value) == -1);
+                    $(this).closest('li').toggle(!not_found);
+                    return not_found;
+                });
+            });
+        });    
+//-- input search --//
+
+//-- input search clear --//
+        $(document).on("click", ".multiselect_field .multiselect_option_search i.clear", function () {
+            var dropdownParenteleID = $(this).closest(".multiselect_field").attr("id");
+            //alert(dropdownParenteleID);
+            $("#" + dropdownParenteleID + ".multiselect_field .multiselect_option_search .input-search").val("");
+            $("#" + dropdownParenteleID + " .multiselect_group_option > li > .multiselect_group_option_list > li").css("display", "");
+        }); 
+//-- input search clear --//
+//-- multiselected val --//
+
+    $(document).on("click", ".multiselect_group_option .select-all", function () {
+        var dropdownParenteleID = $(this).closest(".multiselect_field").attr("id");
+        if ($(this).find(".input-checkbox[value = 'Select All']").prop("checked")) {
+            $("#" + dropdownParenteleID + " .multiselect_group_option_list > li > label .input-checkbox").prop("checked", true);
+            var programming = $("#" + dropdownParenteleID + " .multiselect_group_option_list > li > label .input-checkbox:checked").map(function () {
+                return this.value;
+            }).get().join(', ');
+            $(".selected_val").val(programming);
+            return;
+        } else {
+            $("#" + dropdownParenteleID + " .multiselect_group_option_list > li > label .input-checkbox").prop("checked", false);
+            $(".selected_val").val("");
+        }
+    });
+
+
+
+    $(document).on("click", ".multiselect_group_option > li > .multiselect_group_option_list > li > label", function () {
+        var dropdownParenteleID = $(this).closest(".multiselect_field").attr("id");
+        $("#" + dropdownParenteleID + " .input-checkbox[value = 'Select All']").prop("checked", false);
+        var checkboxname = $(this).children(".input-checkbox").attr("data-name");
+        var programming = $("#" + dropdownParenteleID + " .input-checkbox[data-name='" + checkboxname + "']:checked").map(function () {
+            return this.value;
+        }).get().join(', ');
+        $(".selected_val").val(programming);
+    });
+
+
+//-- multiselected val --//
+//-- Custom Multiselect --//
+//-- Edit support type --//
+    $(document).on("click", "#RoleManagementTable .edit-btn", function () {
+        var supportTypetdVal = $(this).closest("tr").find(".td-support-type").text();
+        var supportTypetdValres = supportTypetdVal.replace(/\s+/g, "");
+        var supportTypetdstr = supportTypetdValres;
+        var supportTypetdstrarr = supportTypetdstr.split(',');
+        console.log(supportTypetdstrarr);
+        var editrolecheckbox = $("#editRolePop #role_featurs_option .checkboxInput[value = 'Call Transaction Report']");
+      //  console.log(editrolecheckbox);
+       // if (editrolecheckbox.prop("checked")) {
+          //  $("#editRolePop .campaign_field").removeClass("hide");
+
+            $(document).on("click", "#editRolePop #edit-support-type .group_name", function () {
+                console.log(supportTypetdstrarr);
+                setTimeout(function () {
+                    $("#edit-support-type .multiselect_group_option_list li").find('.input-checkbox:checkbox[name="Call Transaction Report"]').each(function () {
+                        $(this).prop("checked", ($.inArray($(this).val(), supportTypetdstrarr) != -1));
+                    });
+                }, 300);
+                return;
+            });
+            $('#editRolePop #edit-support-type .group_name').trigger('click');
+            $("#edit-support-type .selected_val").val(supportTypetdstrarr);
+
+
+      //  } else {
+           // alert("it not checked");
+       // }
+    });
+//-- Edit support type --//    
+});
+    </script>
+
+  </body>
+
+  </html>
